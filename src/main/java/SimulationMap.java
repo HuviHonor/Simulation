@@ -14,7 +14,8 @@ public class SimulationMap {
     }
 
     public boolean isWithinBounds(Coordinates coordinates) {
-        return (Objects.nonNull(coordinates) && ((coordinates.getX() >= 0 && coordinates.getX() < width )  && (coordinates.getY() >= 0) && coordinates.getY() < height));
+        return ((coordinates.getX() >= 0 && coordinates.getX() < width )
+                && (coordinates.getY() >= 0) && coordinates.getY() < height);
     }
 
     public void setEntity(Coordinates coordinates, Entity entity) {
@@ -37,6 +38,14 @@ public class SimulationMap {
         entities.remove(coordinates);
     }
 
+    public Coordinates entityCoordinates(Entity entity) {
+        return entities.entrySet().stream()
+                .filter(e -> e.getValue() == entity)
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElseThrow( () -> new IllegalArgumentException("Entity coordinates not found"));
+    }
+
     private void validateCoordinates (Coordinates coordinates) {
         Objects.requireNonNull(coordinates, "Coordinates cannot be null");
         if (!this.isWithinBounds(coordinates)) {
@@ -56,43 +65,4 @@ public class SimulationMap {
         return width;
     }
 }
-class Coordinates {
-    private final int x;
-    private final int y;
 
-    public Coordinates(int x, int y) {
-        if (x < 0  || y < 0) {
-            throw new IllegalArgumentException("Coordinates can't be negative");
-        }
-        this.x = x;
-        this.y = y;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Coordinates that = (Coordinates) o;
-        return x == that.x && y == that.y;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public String toString() {
-        return "Coordinates{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
-    }
-}
