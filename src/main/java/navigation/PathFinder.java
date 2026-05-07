@@ -1,9 +1,14 @@
+package navigation;
+
+import entity.Entity;
+import map.SimulationMap;
+
 import java.util.*;
 import java.util.function.Predicate;
 
-public class PathFinding {
+public class PathFinder {
 
-    public static Coordinates pathFind(Coordinates currentCreatureCoordinate, SimulationMap map, Predicate<Entity> targetCondition) {
+    public static Coordinates findPath(Coordinates currentCreatureCoordinate, SimulationMap map, Predicate<Entity> targetCondition) {
         Deque<Coordinates> queue = new ArrayDeque<>();
         queue.offer(currentCreatureCoordinate);
         Map<Coordinates, Coordinates> pathRecreatingMap = new HashMap<>();

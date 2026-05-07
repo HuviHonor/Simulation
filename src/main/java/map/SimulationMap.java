@@ -1,3 +1,8 @@
+package map;
+
+import entity.Entity;
+import navigation.Coordinates;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -25,7 +30,6 @@ public class SimulationMap {
             throw new IllegalArgumentException("There is already an entity at these coordinates. Delete it or select other coordinates.");
         }
         entities.put(coordinates, entity);
-        System.out.println("Entity: " + entity + " was added on map with coordinates: " + coordinates);
     }
 
     public Entity getEntity (Coordinates coordinates) {

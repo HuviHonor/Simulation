@@ -1,3 +1,9 @@
+package entity;
+
+import map.SimulationMap;
+import navigation.Coordinates;
+import navigation.PathFinder;
+
 public class Predator extends Creature {
     private final int attackPower;
 
@@ -11,7 +17,7 @@ public class Predator extends Creature {
 
     @Override
     public void makeMove(Coordinates currentCoordinates, SimulationMap map) {
-        Coordinates nextStep = PathFinding.pathFind(currentCoordinates, map, entity -> entity instanceof Herbivore);
+        Coordinates nextStep = PathFinder.findPath(currentCoordinates, map, entity -> entity instanceof Herbivore);
         if (nextStep == null) {
             return;
         }
@@ -27,7 +33,7 @@ public class Predator extends Creature {
 
     private void attack(Creature herbivore, SimulationMap map) {
         herbivore.takeDamage(attackPower);
-        if (herbivore.getCreatureHP() <= 0) {
+        if (herbivore.getHP() <= 0) {
             Coordinates herbivoreCoordinates = map.entityCoordinates(herbivore);
             map.removeEntity(herbivoreCoordinates);
         }

@@ -1,11 +1,17 @@
+package entity;
+
+import map.SimulationMap;
+import navigation.Coordinates;
+import navigation.PathFinder;
+
 public class Herbivore extends Creature {
-    public Herbivore(int herbivoreHP, int herbivoreSpeed) {
-        super(herbivoreSpeed, herbivoreHP);
+    public Herbivore(int herbivoreSpeed, int herbivoreHP) {
+        super (herbivoreSpeed, herbivoreHP);
     }
 
     @Override
     public void makeMove(Coordinates currentCoordinates, SimulationMap map) {
-        Coordinates nextStep = PathFinding.pathFind(currentCoordinates, map ,entity -> entity instanceof Grass);
+        Coordinates nextStep = PathFinder.findPath(currentCoordinates, map , entity -> entity instanceof Grass);
         if (nextStep == null) {
             return;
         }

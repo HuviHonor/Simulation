@@ -1,3 +1,5 @@
+package navigation;
+
 import java.util.Objects;
 
 public class Coordinates {
