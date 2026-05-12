@@ -10,7 +10,6 @@ import java.util.Objects;
 public class SimulationMap {
     private final int height;
     private final int width;
-
     private final Map<Coordinates, Entity> entities = new HashMap<>();
 
     public SimulationMap(int height, int width) {
@@ -59,6 +58,10 @@ public class SimulationMap {
 
     public boolean isEmpty(Coordinates coordinates) {
         return !entities.containsKey(coordinates);
+    }
+
+    public int getAvailableCellsCount() {
+        return height * width - entities.size();
     }
 
     public int getHeight() {
