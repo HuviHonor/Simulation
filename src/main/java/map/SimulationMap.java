@@ -69,7 +69,6 @@ public class SimulationMap {
                 .filter(e -> e.getValue() instanceof Creature)
                 .map(Map.Entry::getKey)
                 .toList();
-
     }
 
     public Coordinates getRandomEmptyCell() {
@@ -85,6 +84,12 @@ public class SimulationMap {
             entityCoordinates = new Coordinates(entityRandomX, entityRandomY);
         }
         return entityCoordinates;
+    }
+
+    public int countEntitiesOfType(Class<?> type) {
+        return (int) entities.entrySet().stream()
+                .filter(e -> type.isInstance(e.getValue()))
+                .count();
     }
 
     public int getHeight() {
