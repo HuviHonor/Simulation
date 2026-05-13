@@ -3,6 +3,8 @@ package action;
 import entity.Entity;
 import map.SimulationMap;
 import navigation.Coordinates;
+
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class InitEntitiesAction implements Action {
@@ -13,6 +15,7 @@ public class InitEntitiesAction implements Action {
         if (numberOfEntities <= 0 ) {
             throw new IllegalArgumentException("Numbers of entities can't be zero or less");
         }
+        Objects.requireNonNull(supplier, "Supplier can't be null");
         this.supplier = supplier;
         this.numberOfEntities = numberOfEntities;
     }
