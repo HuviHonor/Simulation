@@ -1,9 +1,11 @@
 package map;
 
+import entity.Creature;
 import entity.Entity;
 import navigation.Coordinates;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -62,6 +64,14 @@ public class SimulationMap {
 
     public int getAvailableCellsCount() {
         return height * width - entities.size();
+    }
+
+    public List<Coordinates> getAllCreaturesCoordinates() {
+        return entities.entrySet().stream()
+                .filter(e -> e.getValue() instanceof Creature)
+                .map(Map.Entry::getKey)
+                .toList();
+
     }
 
     public int getHeight() {
