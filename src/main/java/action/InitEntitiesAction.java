@@ -1,0 +1,30 @@
+package action;
+
+import entity.Entity;
+import map.SimulationMap;
+import navigation.Coordinates;
+import java.util.function.Supplier;
+
+public class InitEntitiesAction implements Action {
+    private final Supplier<Entity> supplier;
+    private final int numberOfEntities;
+
+    public InitEntitiesAction(Supplier<Entity> supplier, int numberOfEntities) {
+        if (numberOfEntities <= 0 ) {
+            throw new IllegalArgumentException("Numbers of entities can't be zero or less");
+        }
+        this.supplier = supplier;
+        this.numberOfEntities = numberOfEntities;
+    }
+
+    @Override
+    public void execute(SimulationMap map) {
+        if (numberOfEntities > map.getAvailableCellsCount()) {
+            throw new IllegalArgumentException("The number of creatures being added is greater than the number of available cells");
+        }
+        for (int i = 0; i < numberOfEntities; i++ ) {
+            Coordinates randomEmptyCellCoordinates = map.getRandomEmptyCell();
+            map.setEntity(randomEmptyCellCoordinates, supplier.get());
+        }
+    }
+}

@@ -4,15 +4,13 @@ import entity.Creature;
 import entity.Entity;
 import navigation.Coordinates;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class SimulationMap {
     private final int height;
     private final int width;
     private final Map<Coordinates, Entity> entities = new HashMap<>();
+    private final Random random = new Random();
 
     public SimulationMap(int height, int width) {
         this.height = height;
@@ -72,6 +70,21 @@ public class SimulationMap {
                 .map(Map.Entry::getKey)
                 .toList();
 
+    }
+
+    public Coordinates getRandomEmptyCell() {
+        if (getAvailableCellsCount() == 0) {
+            throw new IllegalArgumentException("There are no available empty cells ");
+        }
+        int entityRandomX = random.nextInt(width);
+        int entityRandomY = random.nextInt(height);
+        Coordinates entityCoordinates = new Coordinates(entityRandomX, entityRandomY);
+        while (!isEmpty(entityCoordinates)) {
+            entityRandomX = random.nextInt(width);
+            entityRandomY = random.nextInt(height);
+            entityCoordinates = new Coordinates(entityRandomX, entityRandomY);
+        }
+        return entityCoordinates;
     }
 
     public int getHeight() {
