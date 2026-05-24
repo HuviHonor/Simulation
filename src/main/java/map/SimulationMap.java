@@ -3,8 +3,8 @@ package map;
 import entity.Creature;
 import entity.Entity;
 import navigation.Coordinates;
-
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class SimulationMap {
     private final int height;
@@ -72,18 +72,17 @@ public class SimulationMap {
     }
 
     public Coordinates getRandomEmptyCell() {
+
         if (getAvailableCellsCount() == 0) {
             throw new IllegalArgumentException("There are no available empty cells ");
         }
-        int entityRandomX = random.nextInt(width);
-        int entityRandomY = random.nextInt(height);
-        Coordinates entityCoordinates = new Coordinates(entityRandomX, entityRandomY);
-        while (!isEmpty(entityCoordinates)) {
-            entityRandomX = random.nextInt(width);
-            entityRandomY = random.nextInt(height);
-            entityCoordinates = new Coordinates(entityRandomX, entityRandomY);
-        }
-        return entityCoordinates;
+        List<Coordinates> empyCellsList = IntStream.range(0, width)
+                .boxed()
+                .flatMap(x -> IntStream.range(0, height).mapToObj(y -> new Coordinates(x, y)))
+                .filter(e -> !entities.containsKey(e))
+                .toList();
+        int randomIndex = random.nextInt(empyCellsList.size());
+        return empyCellsList.get(randomIndex);
     }
 
     public int countEntitiesOfType(Class<?> type) {

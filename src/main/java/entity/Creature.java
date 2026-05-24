@@ -30,4 +30,9 @@ public abstract class Creature extends Entity {
         return HP;
     }
 
+    public void makeStep (Coordinates from, Coordinates to, SimulationMap map) {
+        map.removeEntity(from);
+        map.setEntity(to, this);
+    }
+
 }

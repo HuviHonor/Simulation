@@ -17,17 +17,18 @@ public class Predator extends Creature {
 
     @Override
     public void makeMove(Coordinates currentCoordinates, SimulationMap map) {
-        Coordinates nextStep = PathFinder.findPath(currentCoordinates, map, entity -> entity instanceof Herbivore);
-        if (nextStep == null) {
-            return;
-        }
-        Entity checkingEntity = map.getEntity(nextStep);
-        if (checkingEntity instanceof Herbivore herbivore) {
-            attack(herbivore, map);
-        } else {
-            Entity predator = map.getEntity(currentCoordinates);
-            map.removeEntity(currentCoordinates);
-            map.setEntity(nextStep, predator);
+        for(int i = 0; i < this.getSpeed(); i++) {
+            Coordinates nextStep = PathFinder.findPath(currentCoordinates, map, entity -> entity instanceof Herbivore);
+            if (nextStep == null) {
+                return;
+            }
+            Entity checkingEntity = map.getEntity(nextStep);
+            if (checkingEntity instanceof Herbivore herbivore) {
+                attack(herbivore, map);
+            } else {
+                this.makeStep(currentCoordinates, nextStep, map);
+                currentCoordinates = nextStep;
+            }
         }
     }
 
@@ -41,5 +42,4 @@ public class Predator extends Creature {
     public int getAttackPower() {
         return attackPower;
     }
-
 }
