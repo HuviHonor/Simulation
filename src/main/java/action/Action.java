@@ -1,6 +1,6 @@
 package action;
-import map.SimulationMap;
+import simulationmap.SimulationMap;
 
 public interface Action {
-    void execute(SimulationMap map);
+    void execute(SimulationMap simulationMap);
 }

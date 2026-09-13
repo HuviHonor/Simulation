@@ -1,38 +1,38 @@
 package entity;
 
-import map.SimulationMap;
+import simulationmap.SimulationMap;
 import navigation.Coordinates;
 
 public abstract class Creature extends Entity {
     private final int speed;
-    private int HP;
+    private int hp;
 
-     public abstract void makeMove(Coordinates coordinates, SimulationMap map);
+    public abstract void makeMove(Coordinates coordinates, SimulationMap simulationMap);
 
-    public Creature(int speed, int HP) {
-        if (speed > 0 && HP > 0) {
+    public Creature(int speed, int hp) {
+        if (speed > 0 && hp > 0) {
             this.speed = speed;
-            this.HP = HP;
+            this.hp = hp;
         } else {
-            throw new IllegalArgumentException("Creature speed and HP can't be zero or less");
+            throw new IllegalArgumentException("Creature speed and hp can't be zero or less");
         }
     }
 
     public void takeDamage(int damage) {
-        HP = HP - damage;
+        hp = hp - damage;
     }
 
     public int getSpeed() {
         return speed;
     }
 
-    public int getHP() {
-        return HP;
+    public int getHp() {
+        return hp;
     }
 
-    public void makeStep (Coordinates from, Coordinates to, SimulationMap map) {
-        map.removeEntity(from);
-        map.setEntity(to, this);
+    public void makeStep (Coordinates from, Coordinates to, SimulationMap simulationMap) {
+        simulationMap.removeEntity(from);
+        simulationMap.setEntity(to, this);
     }
 
 }

@@ -1,7 +1,7 @@
 package action;
 
 import entity.Entity;
-import map.SimulationMap;
+import simulationmap.SimulationMap;
 import navigation.Coordinates;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -25,14 +25,14 @@ public class SpawnEntitiesAction<T extends Entity> implements Action  {
     }
 
     @Override
-    public void execute(SimulationMap map) {
-        int currentEntityCount = map.countEntitiesOfType(type);
+    public void execute(SimulationMap simulationMap) {
+        int currentEntityCount = simulationMap.countEntitiesOfType(type);
         if (currentEntityCount < minEntityCount) {
             int numberOfEntity = spawnUpToCount - currentEntityCount;
-            numberOfEntity = Math.min(numberOfEntity, map.getAvailableCellsCount());
+            numberOfEntity = Math.min(numberOfEntity, simulationMap.getAvailableCellsCount());
             for (int i = 0; i < numberOfEntity; i++) {
-                Coordinates randomEmptyCellCoordinates = map.getRandomEmptyCell();
-                map.setEntity(randomEmptyCellCoordinates, supplier.get());
+                Coordinates randomEmptyCellCoordinates = simulationMap.getRandomEmptyCell();
+                simulationMap.setEntity(randomEmptyCellCoordinates, supplier.get());
             }
         }
     }

@@ -1,7 +1,7 @@
 package action;
 
 import entity.Entity;
-import map.SimulationMap;
+import simulationmap.SimulationMap;
 import navigation.Coordinates;
 
 import java.util.Objects;
@@ -21,13 +21,13 @@ public class InitEntitiesAction implements Action {
     }
 
     @Override
-    public void execute(SimulationMap map) {
-        if (numberOfEntities > map.getAvailableCellsCount()) {
+    public void execute(SimulationMap simulationMap) {
+        if (numberOfEntities > simulationMap.getAvailableCellsCount()) {
             throw new IllegalArgumentException("The number of creatures being added is greater than the number of available cells");
         }
         for (int i = 0; i < numberOfEntities; i++ ) {
-            Coordinates randomEmptyCellCoordinates = map.getRandomEmptyCell();
-            map.setEntity(randomEmptyCellCoordinates, supplier.get());
+            Coordinates randomEmptyCellCoordinates = simulationMap.getRandomEmptyCell();
+            simulationMap.setEntity(randomEmptyCellCoordinates, supplier.get());
         }
     }
 }

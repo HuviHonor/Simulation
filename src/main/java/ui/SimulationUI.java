@@ -9,7 +9,7 @@ public class SimulationUI {
     private static final int START = 1;
     private static final int PAUSE = 2;
     private static final int QUIT = 3;
-    private final static String incorrectInputErrorMessage =
+    private final static String INCORRECT_INPUT_ERROR_MESSAGE =
             "Ошибка: нужно ввести число " +  START +  ", " + PAUSE + " или " + QUIT + "\n";
 
     public void print(Simulation simulation) {
@@ -23,7 +23,7 @@ public class SimulationUI {
                         simulation.pauseSimulation();
                         return;
                     }
-                    default -> System.out.println(incorrectInputErrorMessage);
+                    default -> System.out.println(INCORRECT_INPUT_ERROR_MESSAGE);
                 }
             }
         }

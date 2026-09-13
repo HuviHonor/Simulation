@@ -1,20 +1,20 @@
 package action;
 
 import entity.Creature;
-import map.SimulationMap;
+import simulationmap.SimulationMap;
 import navigation.Coordinates;
 import java.util.List;
 
 public class MoveCreaturesAction implements Action {
     @Override
-    public void execute(SimulationMap map) {
-        List<Coordinates> creatureCoordinates = map.getAllCreaturesCoordinates();
+    public void execute(SimulationMap simulationMap) {
+        List<Coordinates> creatureCoordinates = simulationMap.getAllCreaturesCoordinates();
         for (Coordinates nextCreatureCoordinates : creatureCoordinates) {
-            Creature nextCreature = (Creature) map.getEntity(nextCreatureCoordinates);
+            Creature nextCreature = (Creature) simulationMap.getEntity(nextCreatureCoordinates);
             if (nextCreature == null) {
                 continue;
             }
-            nextCreature.makeMove(nextCreatureCoordinates, map);
+            nextCreature.makeMove(nextCreatureCoordinates, simulationMap);
         }
     }
 }

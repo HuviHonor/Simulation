@@ -5,13 +5,13 @@ import action.InitEntitiesAction;
 import action.MoveCreaturesAction;
 import action.SpawnEntitiesAction;
 import entity.*;
-import map.SimulationMap;
+import simulationmap.SimulationMap;
 import render.ConsoleRenderer;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
-    private final SimulationMap map;
+    private final SimulationMap simulationMap;
     private final ConsoleRenderer renderer;
     private final List<Action> initActions = new ArrayList<>();
     private final List<Action> turnActions = new ArrayList<>();
@@ -35,7 +35,7 @@ public class Simulation {
     private int turnCounter;
 
     public Simulation() {
-        this.map = new SimulationMap(MAP_HEIGHT, MAP_WIDTH);
+        this.simulationMap = new SimulationMap(MAP_HEIGHT, MAP_WIDTH);
         initActions.add(new InitEntitiesAction(Grass::new, INIT_GRASS_COUNT));
         initActions.add(new InitEntitiesAction(Rock::new,ROCK_COUNT));
         initActions.add(new InitEntitiesAction(Tree::new,TREE_COUNT));
@@ -50,18 +50,18 @@ public class Simulation {
 
     public void nextTurn() {
         for(Action action : turnActions) {
-            action.execute(map);
+            action.execute(simulationMap);
         }
         turnCounter++;
-        renderer.render(map, turnCounter);
+        renderer.render(simulationMap, turnCounter);
     }
 
     public void startSimulation() {
         synchronized (this) {
             for (Action action : initActions) {
-                action.execute(map);
+                action.execute(simulationMap);
             }
-            renderer.render(map, turnCounter);
+            renderer.render(simulationMap, turnCounter);
             while (true) {
                 try {
                     this.wait();

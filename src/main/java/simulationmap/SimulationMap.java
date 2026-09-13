@@ -1,4 +1,4 @@
-package map;
+package simulationmap;
 
 import entity.Creature;
 import entity.Entity;

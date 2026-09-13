@@ -1,7 +1,7 @@
 package render;
 
 import entity.*;
-import map.SimulationMap;
+import simulationmap.SimulationMap;
 import navigation.Coordinates;
 
 public class ConsoleRenderer {
@@ -12,12 +12,12 @@ public class ConsoleRenderer {
     private static final String PREDATOR_EMOJI = "🐅";
     private static final String EMPTY_CELL = "..";
 
-    public void render(SimulationMap map, int turnCounter) {
+    public void render(SimulationMap simulationMap, int turnCounter) {
         System.out.print("\033[3J\033[H");
         System.out.flush();
-        for (int y = 0; y < map.getHeight(); y++) {
-            for(int x = 0; x < map.getWidth(); x++) {
-               Entity entity =  map.getEntity(new Coordinates(x, y));
+        for (int y = 0; y < simulationMap.getHeight(); y++) {
+            for(int x = 0; x < simulationMap.getWidth(); x++) {
+               Entity entity =  simulationMap.getEntity(new Coordinates(x, y));
                 switch (entity) {
                     case Grass ignored -> System.out.print(GRASS_EMOJI);
                     case Rock ignored -> System.out.print(ROCK_EMOJI);
