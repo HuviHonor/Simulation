@@ -6,11 +6,11 @@ import java.util.Scanner;
 
 public class SimulationUI {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final int START = 1;
-    private static final int PAUSE = 2;
-    private static final int QUIT = 3;
+    public static final int START = 1;
+    public static final int PAUSE = 2;
+    public static final int QUIT = 3;
     private final static String INCORRECT_INPUT_ERROR_MESSAGE =
-            "Ошибка: нужно ввести число " +  START +  ", " + PAUSE + " или " + QUIT + "\n";
+            "Ошибка: нужно ввести число %d, %d или %d".formatted(START, PAUSE, QUIT);
 
     public void print(Simulation simulation) {
             while (true) {

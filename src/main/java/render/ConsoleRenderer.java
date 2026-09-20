@@ -4,6 +4,8 @@ import entity.*;
 import simulationmap.SimulationMap;
 import navigation.Coordinates;
 
+import static ui.SimulationUI.*;
+
 public class ConsoleRenderer {
     private static final String GRASS_EMOJI = "🌿";
     private static final String ROCK_EMOJI = "🪨";
@@ -30,9 +32,9 @@ public class ConsoleRenderer {
             System.out.println();
         }
         System.out.println("Счетчик ходов: " + turnCounter);
-        System.out.println("1. Запустить симуляцию");
-        System.out.println("2. Остановить симуляцию");
-        System.out.println("3. Выйти");
+        System.out.println(START + ". Запустить симуляцию");
+        System.out.println(PAUSE + ". Остановить симуляцию");
+        System.out.println(QUIT + ". Выйти");
         System.out.print(">> ");
     }
 }
