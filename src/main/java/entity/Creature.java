@@ -10,12 +10,11 @@ public abstract class Creature extends Entity {
     public abstract void makeMove(Coordinates coordinates, SimulationMap simulationMap);
 
     public Creature(int speed, int hp) {
-        if (speed > 0 && hp > 0) {
-            this.speed = speed;
-            this.hp = hp;
-        } else {
+        if (speed <= 0 || hp <= 0) {
             throw new IllegalArgumentException("Creature speed and hp can't be zero or less");
         }
+        this.speed = speed;
+        this.hp = hp;
     }
 
     public void takeDamage(int damage) {

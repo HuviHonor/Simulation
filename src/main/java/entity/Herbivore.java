@@ -21,10 +21,9 @@ public class Herbivore extends Creature {
                 eat(simulationMap, nextStep);
                 this.makeStep(currentCoordinates, nextStep, simulationMap);
                 return;
-            } else {
-                this.makeStep(currentCoordinates, nextStep, simulationMap);
-                currentCoordinates = nextStep;
             }
+            this.makeStep(currentCoordinates, nextStep, simulationMap);
+            currentCoordinates = nextStep;
         }
     }
 
