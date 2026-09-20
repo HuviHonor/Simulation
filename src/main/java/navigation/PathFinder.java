@@ -24,19 +24,17 @@ public class PathFinder {
                     currentCoordinate = pathRecreatingMap.get(currentCoordinate);
                 }
                 return nextStep;
-            } else {
-                int currentX = currentCoordinate.getX();
-                int currentY = currentCoordinate.getY();
-                Coordinates oneStepRightNeighbor = new Coordinates(currentX + 1, currentY);
-                Coordinates oneStepUpNeighbor = new Coordinates(currentX, currentY + 1);
-                Coordinates oneStepLeftNeighbor = new Coordinates(currentX - 1, currentY);
-                Coordinates oneStepDownNeighbor = new Coordinates(currentX, currentY - 1);
-
-                addNeighborIfValid(oneStepRightNeighbor, currentCoordinate, queue, pathRecreatingMap, simulationMap, targetCondition);
-                addNeighborIfValid(oneStepUpNeighbor, currentCoordinate, queue, pathRecreatingMap, simulationMap, targetCondition);
-                addNeighborIfValid(oneStepLeftNeighbor, currentCoordinate, queue, pathRecreatingMap, simulationMap, targetCondition);
-                addNeighborIfValid(oneStepDownNeighbor, currentCoordinate, queue, pathRecreatingMap, simulationMap, targetCondition);
             }
+            int currentX = currentCoordinate.x();
+            int currentY = currentCoordinate.y();
+            Coordinates oneStepRightNeighbor = new Coordinates(currentX + 1, currentY);
+            Coordinates oneStepUpNeighbor = new Coordinates(currentX, currentY + 1);
+            Coordinates oneStepLeftNeighbor = new Coordinates(currentX - 1, currentY);
+            Coordinates oneStepDownNeighbor = new Coordinates(currentX, currentY - 1);
+            addNeighborIfValid(oneStepRightNeighbor, currentCoordinate, queue, pathRecreatingMap, simulationMap, targetCondition);
+            addNeighborIfValid(oneStepUpNeighbor, currentCoordinate, queue, pathRecreatingMap, simulationMap, targetCondition);
+            addNeighborIfValid(oneStepLeftNeighbor, currentCoordinate, queue, pathRecreatingMap, simulationMap, targetCondition);
+            addNeighborIfValid(oneStepDownNeighbor, currentCoordinate, queue, pathRecreatingMap, simulationMap, targetCondition);
         }
         return null;
     }

@@ -18,8 +18,8 @@ public class SimulationMap {
     }
 
     public boolean isWithinBounds(Coordinates coordinates) {
-        return ((coordinates.getX() >= 0 && coordinates.getX() < width )
-                && (coordinates.getY() >= 0) && coordinates.getY() < height);
+        return ((coordinates.x() >= 0 && coordinates.x() < width )
+                && (coordinates.y() >= 0) && coordinates.y() < height);
     }
 
     public void setEntity(Coordinates coordinates, Entity entity) {
