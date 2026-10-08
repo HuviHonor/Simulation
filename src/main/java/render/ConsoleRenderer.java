@@ -1,8 +1,8 @@
 package render;
 
 import entity.*;
-import simulationmap.SimulationMap;
 import navigation.Coordinates;
+import simulationmap.SimulationMap;
 
 import static ui.SimulationUI.*;
 
@@ -18,15 +18,20 @@ public class ConsoleRenderer {
         System.out.print("\033[3J\033[H");
         System.out.flush();
         for (int y = 0; y < simulationMap.getHeight(); y++) {
-            for(int x = 0; x < simulationMap.getWidth(); x++) {
-               Entity entity =  simulationMap.getEntity(new Coordinates(x, y));
+            for (int x = 0; x < simulationMap.getWidth(); x++) {
+                Coordinates coordinates = new Coordinates(x, y);
+                if (simulationMap.isEmpty(coordinates)) {
+                    System.out.print(EMPTY_CELL);
+                    continue;
+                }
+                Entity entity = simulationMap.getEntity(coordinates);
                 switch (entity) {
                     case Grass ignored -> System.out.print(GRASS_EMOJI);
                     case Rock ignored -> System.out.print(ROCK_EMOJI);
                     case Tree ignored -> System.out.print(TREE_EMOJI);
                     case Herbivore ignored -> System.out.print(HERBIVORE_EMOJI);
                     case Predator ignored -> System.out.print(PREDATOR_EMOJI);
-                    case null, default -> System.out.print(EMPTY_CELL);
+                    default -> throw new IllegalStateException("Unexpected entity: " + entity);
                 }
             }
             System.out.println();

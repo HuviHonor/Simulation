@@ -16,8 +16,7 @@ public class PathFinder {
 
         while (!queue.isEmpty()) {
             Coordinates currentCoordinate = queue.poll();
-            Entity entity = simulationMap.getEntity(currentCoordinate);
-            if (entity != null && targetCondition.test(entity)) {
+            if (!simulationMap.isEmpty(currentCoordinate) && targetCondition.test(simulationMap.getEntity(currentCoordinate))) {
                 Coordinates nextStep = currentCoordinate;
                 while (pathRecreatingMap.get(currentCoordinate) != null) {
                     nextStep = currentCoordinate;

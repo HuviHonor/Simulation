@@ -24,14 +24,19 @@ public class SimulationMap {
         Objects.requireNonNull(entity, "Entity can't be null");
         validateCoordinates(coordinates);
         if (entities.containsKey(coordinates)) {
-            throw new IllegalArgumentException("There is already an entity at these coordinates. Delete it or select other coordinates.");
+            throw new IllegalArgumentException("There is already an entity at %s. Delete it or select other coordinates."
+                    .formatted(coordinates));
         }
         entities.put(coordinates, entity);
     }
 
     public Entity getEntity(Coordinates coordinates) {
         validateCoordinates(coordinates);
-        return entities.get(coordinates);
+        Entity entity = entities.get(coordinates);
+        if (entity == null) {
+            throw new IllegalArgumentException("There is no entity at %s.".formatted(coordinates));
+        }
+        return entity;
     }
 
     public void removeEntity(Coordinates coordinates) {

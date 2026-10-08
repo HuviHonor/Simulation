@@ -23,8 +23,7 @@ public abstract class Creature extends Entity {
             if (nextStep == null) {
                 return;
             }
-            Entity nextStepEntity = simulationMap.getEntity(nextStep);
-            if (isFood(nextStepEntity)) {
+            if (!simulationMap.isEmpty(nextStep) && isFood(simulationMap.getEntity(nextStep))) {
                 interactWithFood(currentCoordinates, nextStep, simulationMap);
                 return;
             }
