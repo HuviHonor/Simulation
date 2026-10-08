@@ -1,33 +1,21 @@
 package entity;
 
-import simulationmap.SimulationMap;
 import navigation.Coordinates;
-import navigation.PathFinder;
+import simulationmap.SimulationMap;
 
 public class Herbivore extends Creature {
     public Herbivore(int speed, int hp) {
-        super (speed, hp);
+        super(speed, hp);
     }
 
     @Override
-    public void makeMove(Coordinates currentCoordinates, SimulationMap simulationMap) {
-        for (int i = 0; i < this.getSpeed(); i++ ) {
-            Coordinates nextStep = PathFinder.find(currentCoordinates, simulationMap , entity -> entity instanceof Grass);
-            if (nextStep == null) {
-                return;
-            }
-            Entity checkingEntity = simulationMap.getEntity(nextStep);
-            if (checkingEntity instanceof Grass) {
-                eat(simulationMap, nextStep);
-                this.makeStep(currentCoordinates, nextStep, simulationMap);
-                return;
-            }
-            this.makeStep(currentCoordinates, nextStep, simulationMap);
-            currentCoordinates = nextStep;
-        }
+    protected boolean isFood(Entity entity) {
+        return entity instanceof Grass;
     }
 
-    private void eat(SimulationMap simulationMap, Coordinates nextStep) {
-        simulationMap.removeEntity(nextStep);
+    @Override
+    protected void interactWithFood(Coordinates currentCoordinates, Coordinates targetCoordinates, SimulationMap simulationMap) {
+        simulationMap.removeEntity(targetCoordinates);
+        makeStep(currentCoordinates, targetCoordinates, simulationMap);
     }
 }

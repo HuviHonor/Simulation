@@ -1,8 +1,7 @@
 package entity;
 
-import simulationmap.SimulationMap;
 import navigation.Coordinates;
-import navigation.PathFinder;
+import simulationmap.SimulationMap;
 
 public class Predator extends Creature {
     private final int attackPower;
@@ -16,30 +15,20 @@ public class Predator extends Creature {
     }
 
     @Override
-    public void makeMove(Coordinates currentCoordinates, SimulationMap simulationMap) {
-        for(int i = 0; i < this.getSpeed(); i++) {
-            Coordinates nextStep = PathFinder.find(currentCoordinates, simulationMap, entity -> entity instanceof Herbivore);
-            if (nextStep == null) {
-                return;
-            }
-            Entity checkingEntity = simulationMap.getEntity(nextStep);
-            if (checkingEntity instanceof Herbivore herbivore) {
-                attack(herbivore, simulationMap);
-            } else {
-                this.makeStep(currentCoordinates, nextStep, simulationMap);
-                currentCoordinates = nextStep;
-            }
-        }
+    protected boolean isFood(Entity entity) {
+        return entity instanceof Herbivore;
     }
 
-    private void attack(Creature herbivore, SimulationMap simulationMap) {
-        herbivore.takeDamage(attackPower);
-        if (herbivore.getHp() <= 0) {
-            Coordinates herbivoreCoordinates = simulationMap.entityCoordinates(herbivore);
-            simulationMap.removeEntity(herbivoreCoordinates);
+    @Override
+    protected void interactWithFood(Coordinates currentCoordinates, Coordinates targetCoordinates, SimulationMap simulationMap) {
+        Entity targetEntity = simulationMap.getEntity(targetCoordinates);
+        if (!(targetEntity instanceof Creature targetCreature)) {
+            throw new IllegalStateException("Expected target for predator is creature. %s has %s."
+                    .formatted(targetCoordinates, targetEntity));
         }
-    }
-    public int getAttackPower() {
-        return attackPower;
+        targetCreature.takeDamage(attackPower);
+        if (targetCreature.getHp() <= 0) {
+            simulationMap.removeEntity(targetCoordinates);
+        }
     }
 }

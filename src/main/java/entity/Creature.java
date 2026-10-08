@@ -1,15 +1,14 @@
 package entity;
 
-import simulationmap.SimulationMap;
 import navigation.Coordinates;
+import navigation.PathFinder;
+import simulationmap.SimulationMap;
 
 public abstract class Creature extends Entity {
     private final int speed;
     private int hp;
 
-    public abstract void makeMove(Coordinates coordinates, SimulationMap simulationMap);
-
-    public Creature(int speed, int hp) {
+    protected Creature(int speed, int hp) {
         if (speed <= 0 || hp <= 0) {
             throw new IllegalArgumentException("Creature speed and hp can't be zero or less");
         }
@@ -17,21 +16,42 @@ public abstract class Creature extends Entity {
         this.hp = hp;
     }
 
-    public void takeDamage(int damage) {
-        hp = hp - damage;
+    public final void makeMove(SimulationMap simulationMap) {
+        Coordinates currentCoordinates = simulationMap.getEntityCoordinates(this);
+        for (int i = 0; i < speed; i++) {
+            Coordinates nextStep = PathFinder.find(currentCoordinates, simulationMap, this::isFood);
+            if (nextStep == null) {
+                return;
+            }
+            Entity nextStepEntity = simulationMap.getEntity(nextStep);
+            if (isFood(nextStepEntity)) {
+                interactWithFood(currentCoordinates, nextStep, simulationMap);
+                return;
+            }
+            makeStep(currentCoordinates, nextStep, simulationMap);
+            currentCoordinates = nextStep;
+        }
     }
 
-    public int getSpeed() {
-        return speed;
+    public void takeDamage(int damage) {
+        hp = hp - damage;
+        if (hp < 0) {
+            hp = 0;
+        }
     }
 
     public int getHp() {
         return hp;
     }
 
-    public void makeStep (Coordinates from, Coordinates to, SimulationMap simulationMap) {
+    protected void makeStep(Coordinates from, Coordinates to, SimulationMap simulationMap) {
         simulationMap.removeEntity(from);
         simulationMap.setEntity(to, this);
     }
+
+    protected abstract void interactWithFood(Coordinates currentCoordinates,
+                                             Coordinates targetCoordinates, SimulationMap simulationMap);
+
+    protected abstract boolean isFood(Entity entity);
 
 }
