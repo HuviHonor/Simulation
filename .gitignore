@@ -34,3 +34,6 @@ bin/
 
 .DS_Store
 /secrets/
+/.idea/gradle.xml
+/.idea/misc.xml
+/.idea/vcs.xml
