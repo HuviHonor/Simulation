@@ -10,7 +10,9 @@ import java.util.stream.IntStream;
 public final class SimulationMapUtils {
     private static final Random RANDOM = new Random();
 
-    private SimulationMapUtils() {}
+    private SimulationMapUtils() {
+        throw new AssertionError("Utility class. No instances allowed.");
+    }
 
     public static Coordinates findRandomEmptyCell(SimulationMap simulationMap) {
         if (countEmptyCells(simulationMap) == 0) {

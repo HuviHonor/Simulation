@@ -11,6 +11,7 @@ public final class PathFinder {
             new Coordinates(1, 0), new Coordinates(0, 1), new Coordinates(-1, 0), new Coordinates(0, -1));
 
     private PathFinder() {
+        throw new AssertionError("Utility class. No instances allowed.");
     }
 
     public static Coordinates find(Coordinates start, SimulationMap simulationMap, Predicate<Entity> targetCondition) {
