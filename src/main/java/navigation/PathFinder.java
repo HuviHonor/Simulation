@@ -14,7 +14,7 @@ public final class PathFinder {
         throw new AssertionError("Utility class. No instances allowed.");
     }
 
-    public static Coordinates find(Coordinates start, SimulationMap simulationMap, Predicate<Entity> targetCondition) {
+    public static List<Coordinates> find(Coordinates start, SimulationMap simulationMap, Predicate<Entity> targetCondition) {
         Deque<Coordinates> queue = new ArrayDeque<>();
         queue.offer(start);
         Map<Coordinates, Coordinates> cameFrom = new HashMap<>();
@@ -23,19 +23,14 @@ public final class PathFinder {
         while (!queue.isEmpty()) {
             Coordinates current = queue.poll();
             if (!simulationMap.isEmpty(current) && targetCondition.test(simulationMap.getEntity(current))) {
-                Coordinates nextStep = current;
-                while (cameFrom.get(current) != null) {
-                    nextStep = current;
-                    current = cameFrom.get(current);
-                }
-                return nextStep;
+                return reconstructPath(cameFrom, current);
             }
             for (Coordinates shift : SHIFT_COORDINATES) {
                 Coordinates neighbor = new Coordinates(current.x() + shift.x(), current.y() + shift.y());
                 addNeighborIfValid(neighbor, current, queue, cameFrom, simulationMap, targetCondition);
             }
         }
-        return null;
+        return Collections.emptyList();
     }
 
     private static void addNeighborIfValid(Coordinates neighbor, Coordinates current, Deque<Coordinates> queue,
@@ -48,5 +43,16 @@ public final class PathFinder {
 
     private static boolean canVisit(Coordinates neighbor, SimulationMap simulationMap, Predicate<Entity> targetCondition) {
         return (simulationMap.isWithinBounds(neighbor)) && (simulationMap.isEmpty(neighbor) || targetCondition.test(simulationMap.getEntity(neighbor)));
+    }
+
+    private static List<Coordinates> reconstructPath(Map<Coordinates, Coordinates> cameFrom, Coordinates target) {
+        List<Coordinates> path = new ArrayList<>();
+        Coordinates current = target;
+        while (cameFrom.get(current) != null) {
+            path.add(current);
+            current = cameFrom.get(current);
+        }
+        Collections.reverse(path);
+        return List.copyOf(path);
     }
 }

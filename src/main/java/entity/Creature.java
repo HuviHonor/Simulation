@@ -4,6 +4,8 @@ import navigation.Coordinates;
 import navigation.PathFinder;
 import simulationmap.SimulationMap;
 
+import java.util.List;
+
 public abstract class Creature extends Entity {
     private final int speed;
     private int hp;
@@ -18,17 +20,16 @@ public abstract class Creature extends Entity {
 
     public final void makeMove(SimulationMap simulationMap) {
         Coordinates currentCoordinates = simulationMap.getEntityCoordinates(this);
-        for (int i = 0; i < speed; i++) {
-            Coordinates nextStep = PathFinder.find(currentCoordinates, simulationMap, this::isFood);
-            if (nextStep == null) {
+        List<Coordinates> path = PathFinder.find(currentCoordinates, simulationMap, this::isFood);
+        for (int i = 0; i < speed && i < path.size(); i++) {
+            Coordinates nextCoordinates = path.get(i);
+            boolean isTarget = (i == path.size() - 1);
+            if (isTarget) {
+                interactWithFood(currentCoordinates, nextCoordinates, simulationMap);
                 return;
             }
-            if (!simulationMap.isEmpty(nextStep) && isFood(simulationMap.getEntity(nextStep))) {
-                interactWithFood(currentCoordinates, nextStep, simulationMap);
-                return;
-            }
-            makeStep(currentCoordinates, nextStep, simulationMap);
-            currentCoordinates = nextStep;
+            makeStep(currentCoordinates, nextCoordinates, simulationMap);
+            currentCoordinates = nextCoordinates;
         }
     }
 
